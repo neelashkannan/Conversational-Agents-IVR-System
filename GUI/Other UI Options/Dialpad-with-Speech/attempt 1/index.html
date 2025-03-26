@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MM-IVR</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" type="javascript"></script>
+</head>
+<body>
+    <div class="phone">
+        <div class="screen" id="ivrScreen"></div>
+        <button class="call-button" id="callButton" onclick="startCall()">Call</button>
+        <div class="dial-pad" id="dialPad">
+            <button onclick="sendDTMF('1')">1</button>
+            <button onclick="sendDTMF('2')">2</button>
+            <button onclick="sendDTMF('3')">3</button>
+            <button onclick="sendDTMF('4')">4</button>
+            <button onclick="sendDTMF('5')">5</button>
+            <button onclick="sendDTMF('6')">6</button>
+            <button onclick="sendDTMF('7')">7</button>
+            <button onclick="sendDTMF('8')">8</button>
+            <button onclick="sendDTMF('9')">9</button>
+            <button onclick="sendDTMF('*')">*</button>
+            <button onclick="sendDTMF('0')">0</button>
+            <button onclick="sendDTMF('#')">#</button>
+        </div>
+        <canvas id="spectrogram"></canvas>
+    </div>
+</body>
+</html>
+

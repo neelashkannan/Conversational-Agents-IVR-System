@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 375px;
+    height: 100vh;
+    max-height: 812px;
+    margin: 0 auto;
+}
+
+.phone-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 40px;
+    border: 14px solid #111;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Status bar */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #000;
+}
+
+.signal {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.signal .bar {
+    width: 2px;
+    background-color: #fff;
+    border-radius: 1px;
+}
+
+.signal .bar:nth-child(1) {
+    height: 10px;
+}
+
+.signal .bar:nth-child(2) {
+    height: 12px;
+}
+
+.signal .bar:nth-child(3) {
+    height: 14px;
+}
+
+.signal .bar:nth-child(4) {
+    height: 16px;
+}
+
+.battery {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.battery .dot {
+    height: 8px;
+    width: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.battery .square {
+    height: 8px;
+    width: 8px;
+    border: 1px solid #fff;
+    border-radius: 2px;
+}
+
+/* Welcome header */
+.welcome-header {
+    background-color: #e0e0e0;
+    color: #000;
+    padding: 32px 16px;
+    text-align: center;
+    position: relative;
+}
+
+.welcome-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.back-button {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+}
+
+/* Search bar */
+.search-container {
+    padding: 12px 16px;
+}
+
+.search-bar {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #666;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+    color: #333;
+    font-size: 14px;
+}
+
+.search-bar input::placeholder {
+    color: #666;
+}
+
+.search-bar input:focus {
+    outline: none;
+}
+
+/* Menu section */
+.menu-section {
+    padding: 8px 16px;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-section h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.menu-button {
+    width: 100%;
+    padding: 16px;
+    background-color: #e0e0e0;
+    color: #000;
+    border: none;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.menu-button:hover {
+    background-color: #ccc;
+}
+
+/* Performance notice */
+.performance-notice {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 12px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notice-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.learn-more {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.close-button {
+    height: 16px;
+    width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-height: 812px) {
+    .app-container {
+        height: 100vh;
+    }
+}
+
+@media (max-width: 400px) {
+    .app-container {
+        max-width: 100%;
+    }
+    
+    .phone-frame {
+        border-width: 0;
+        border-radius: 0;
+    }
+}

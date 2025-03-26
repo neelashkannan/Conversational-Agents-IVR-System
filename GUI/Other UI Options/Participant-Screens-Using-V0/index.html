@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Customer Interaction Journeys</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Mo.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Customer Interaction Journeys</h1>
+                <p class="card-description">For evaluation participants</p>
+            </div>
+            <div class="card-content">
+                <button class="option-button" data-option="airline">
+                    <span class="option-number">1.</span> Airline
+                </button>
+                <button class="option-button" data-option="hospital">
+                    <span class="option-number">2.</span> Hospital
+                </button>
+                <button class="option-button" data-option="bank">
+                    <span class="option-number">3.</span> Bank
+                </button>
+                <button class="option-button" data-option="ubereats">
+                    <span class="option-number">4.</span> Uber Eats
+                </button>
+                
+                <a href="modality.html">
+                    <button id="continue-button" class="continue-button" disabled>Continue</button>
+                </a>
+                
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            
+            let selectedOption = null;
+            const optionButtons = document.querySelectorAll('.option-button');
+            const continueButton = document.getElementById('continue-button');
+            
+            // Option selection
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    optionButtons.forEach(btn => btn.classList.remove('selected'));
+                    
+                    // Add selected class to clicked button
+                    this.classList.add('selected');
+                    
+                    // Store selected option
+                    selectedOption = this.getAttribute('data-option');
+                    
+                    // Enable continue button
+                    continueButton.removeAttribute('disabled');
+                    
+                    // Create burst animation on click
+                    createBurst(event);
+                });
+            });
+            
+            // Continue button
+            continueButton.addEventListener('click', function() {
+                if (selectedOption) {
+                    // Store selection in localStorage
+                    localStorage.setItem('selectedJourney', selectedOption);
+                    
+                    // Create burst animation on click
+                    createBurst(event);
+                    
+                    // Navigate to next page with delay for animation
+                    setTimeout(() => {
+                        window.location.href = 'modality.html';
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

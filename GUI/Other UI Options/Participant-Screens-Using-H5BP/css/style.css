@@ -11,6 +11,16 @@
    Base styles: opinionated defaults
    ========================================================================== */
 
+@font-face {
+  font-family: 'Capricho';
+  src: url('../fonts/Capricho-Light.woff2') format('woff2'),
+      url('../fonts/Capricho-Light.woff') format('woff'),
+      url('../fonts/Capricho-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
   color: #222;
   font-size: 1em;
@@ -386,4 +396,12 @@ body
   20%, 100% {
     left: 150%;
   }
+}
+
+.btn-exit{
+  color: #faa;
+}
+
+body, .btn{
+  font-family: 'Capricho', Calibri, 'Trebuchet MS', sans-serif; /* Apply the custom font */
 }

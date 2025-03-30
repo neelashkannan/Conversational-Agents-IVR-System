@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVR System</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .phone {
+            width: 300px;
+            height: 500px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        .screen {
+            flex-grow: 1;
+            width: 100%;
+            background: #ddd;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+        .call-button {
+            padding: 15px 30px;
+            border: none;
+            background: green;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .dial-pad {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .dial-pad button {
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: lightgray;
+        }
+        .spectrogram-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+        canvas {
+            width: 90%;
+            height: 100px;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone">
+        <div class="screen" id="ivrScreen"></div>
+        <button class="call-button" id="callButton" onclick="startCall()">Call</button>
+        <div class="dial-pad" id="dialPad">
+            <button onclick="sendDTMF('1')">1</button>
+            <button onclick="sendDTMF('2')">2</button>
+            <button onclick="sendDTMF('3')">3</button>
+            <button onclick="sendDTMF('4')">4</button>
+            <button onclick="sendDTMF('5')">5</button>
+            <button onclick="sendDTMF('6')">6</button>
+            <button onclick="sendDTMF('7')">7</button>
+            <button onclick="sendDTMF('8')">8</button>
+            <button onclick="sendDTMF('9')">9</button>
+            <button onclick="sendDTMF('*')">*</button>
+            <button onclick="sendDTMF('0')">0</button>
+            <button onclick="sendDTMF('#')">#</button>
+        </div>
+        <div class="spectrogram-container">
+            <canvas id="spectrogram"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let ivrFlow = {
+            "start": { "message": "Welcome to the IVR. Say or press 1 for Support, 2 for Sales, 3 for Billing.", "options": { "1": "support", "2": "sales", "3": "billing" }},
+            "support": { "message": "Support selected. Say or press 1 for Technical Support, 2 for Account Issues.", "options": { "1": "techSupport", "2": "accountIssues" }},
+            "sales": { "message": "Sales selected. Say or press 1 for New Purchases, 2 for Existing Orders.", "options": { "1": "newPurchases", "2": "existingOrders" }},
+            "billing": { "message": "Billing selected. Say or press 1 for Payment Issues, 2 for Refund Requests.", "options": { "1": "paymentIssues", "2": "refundRequests" }},
+            "techSupport": { "message": "You selected Technical Support. Please hold while we connect you." },
+            "accountIssues": { "message": "You selected Account Issues. Please hold while we connect you." },
+            "newPurchases": { "message": "You selected New Purchases. Please hold while we connect you." },
+            "existingOrders": { "message": "You selected Existing Orders. Please hold while we connect you." },
+            "paymentIssues": { "message": "You selected Payment Issues. Please hold while we connect you." },
+            "refundRequests": { "message": "You selected Refund Requests. Please hold while we connect you." }
+        };
+
+        let currentScreen = "start";
+        let synth = window.speechSynthesis;
+        let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        function speak(text) {
+            let utterance = new SpeechSynthesisUtterance(text);
+            synth.cancel();
+            synth.speak(utterance);
+        }
+
+        function startRecognition() {
+            recognition.start();
+        }
+
+        recognition.onresult = function(event) {
+            let transcript = event.results[0][0].transcript.toLowerCase();
+            handleIVRInput(transcript);
+        };
+
+        function startCall() {
+            document.getElementById('callButton').style.display = 'none';
+            document.getElementById('ivrScreen').style.display = 'block';
+            document.getElementById('dialPad').style.display = 'grid';
+            showScreen("start");
+        }
+
+        function sendDTMF(digit) {
+            playDTMFTone(digit);
+            handleIVRInput(digit);
+        }
+
+        function handleIVRInput(input) {
+            if (!ivrFlow[currentScreen].options) return;
+            let nextScreen = ivrFlow[currentScreen].options[input];
+
+            if (nextScreen) {
+                showScreen(nextScreen);
+            } else {
+                speak("Invalid input. Please try again.");
+                startRecognition();
+            }
+        }
+
+        function showScreen(screenKey) {
+            if (!ivrFlow[screenKey]) return;
+
+            currentScreen = screenKey;
+            let screenData = ivrFlow[screenKey];
+
+            document.getElementById("ivrScreen").innerText = screenData.message;
+            speak(screenData.message);
+
+            if (screenData.options) {
+                startRecognition();
+            }
+        }
+
+        function playDTMFTone(digit) {
+            const dtmfFrequencies = {
+                '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
+                '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
+                '7': [852, 1209], '8': [852, 1336], '9': [852, 1477],
+                '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
+            };
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const [low, high] = dtmfFrequencies[digit];
+            [low, high].forEach(freq => {
+                let osc = audioCtx.createOscillator();
+                osc.frequency.value = freq;
+                osc.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            });
+        }
+    </script>
+</body>
+</html>

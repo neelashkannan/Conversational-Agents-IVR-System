@@ -1,0 +1,18 @@
+{
+    "welcome": {
+        "message": "Welcome to our IVR system. Say or press 1 for support. Say or press 2 for sales.",
+        "options": { "1": "support", "2": "sales" }
+    },
+    "support": {
+        "message": "You have selected support. Say or press 1 for technical support. Say or press 2 for billing support.",
+        "options": { "1": "tech_support", "2": "billing_support" }
+    },
+    "sales": {
+        "message": "You have selected sales. Say or press 1 for new products. Say or press 2 for existing orders.",
+        "options": { "1": "new_products", "2": "existing_orders" }
+    },
+    "tech_support": { "message": "Connecting you to technical support." },
+    "billing_support": { "message": "Connecting you to billing support." },
+    "new_products": { "message": "Here are our latest products." },
+    "existing_orders": { "message": "Checking your existing orders." }
+}

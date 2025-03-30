@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Choose Modality</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Mo.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Choose Modality</h1>
+                <p class="card-description">For evaluation participants</p>
+            </div>
+            <div class="card-content">
+                <button class="option-button" data-option="gui">
+                    <span class="option-number">1.</span> GUI Only
+                </button>
+                <button class="option-button" data-option="voice">
+                    <span class="option-number">2.</span> Voice Only
+                </button>
+                <button class="option-button" data-option="both">
+                    <span class="option-number">3.</span> GUI + Voice
+                </button>
+                
+                <div class="button-group">
+                    <a href="index.html">
+                        <button id="back-button" class="back-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron-left">
+                                <path d="m15 18-6-6 6-6"/>
+                            </svg>
+                            Back
+                        </button>
+                    </a>
+                    <a href="flow.html">
+                        <button id="continue-button" class="continue-button" disabled>Continue</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            
+            let selectedModality = null;
+            const optionButtons = document.querySelectorAll('.option-button');
+            const continueButton = document.getElementById('continue-button');
+            const backButton = document.getElementById('back-button');
+            
+            // Option selection
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove selected class from all buttons
+                    optionButtons.forEach(btn => btn.classList.remove('selected'));
+                    
+                    // Add selected class to clicked button
+                    this.classList.add('selected');
+                    
+                    // Store selected option
+                    selectedModality = this.getAttribute('data-option');
+                    
+                    // Enable continue button
+                    continueButton.removeAttribute('disabled');
+                    
+                    // Create burst animation on click
+                    createBurst(event);
+                });
+            });
+            
+            // Continue button
+            continueButton.addEventListener('click', function() {
+                if (selectedModality) {
+                    // Store selection in localStorage
+                    localStorage.setItem('selectedModality', selectedModality);
+                    
+                    // Create burst animation on click
+                    createBurst(event);
+                    
+                    // Show alert with selection (in a real app, you would navigate to the next screen)
+                    setTimeout(() => {
+                        alert(`Selected journey: ${localStorage.getItem('selectedJourney')}\nSelected modality: ${selectedModality}`);
+                    }, 300);
+                }
+            });
+            
+            // Back button
+            backButton.addEventListener('click', function() {
+                createBurst(event);
+                
+                // Navigate back with delay for animation
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+    "screens": [
+      {
+        "id": 1,
+        "title": "Customer Interaction Journeys",
+        "description": "This screen is for evaluation participants",
+        "options": [
+          "Airline",
+          "Hospital",
+          "Bank",
+          "Uber Eats"
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Choose Modality",
+        "description": "This screen is for evaluation participants",
+        "options": [
+          "GUI Only",
+          "Voice Only",
+          "GUI + Voice"
+        ]
+      }
+    ]
+  }
+  
